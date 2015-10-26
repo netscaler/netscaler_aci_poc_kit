@@ -1,0 +1,338 @@
+<!--
+The MIT License (MIT)
+
+Copyright (c) 2015 Citrix Systems, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ -->
+<polUni>
+    <fvTenant name="tenant_parik1">
+
+        <!-- Application Profile -->
+  
+          <fvAp dn="uni/tn-tenant_parik1/ap-myapp_profile" name="myapp_profile">
+            <!-- EPG 1  -->
+			<fvAEPg dn="uni/tn-tenant_parik1/ap-myapp_profile/epg-web" name="web">
+				<fvRsBd tnFvBDName="BD1" />
+				<fvSubnet ip="1.1.1.1/24" scope="shared"/>
+				<fvRsProv tnVzBrCPName="webCtrct_CS_HTTP"></fvRsProv>
+                <fvRsDomAtt tDn="uni/phys-phys_BW"/>
+                <fvRsPathAtt tDn="topology/pod-1/paths-101/pathep-[eth1/8]" encap="vlan-1002" instrImedcy="immediate"/>
+              
+                
+						<!-- BW Server side  -->                
+                <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="Network" name="network">
+                      <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="nsip" name="snip5">
+                            <vnsParamInst key="ipaddress" name="ip5" value="1.1.1.98"/>
+                            <vnsParamInst key="netmask" name="netmask1" value="255.255.255.0"/>
+                            <vnsParamInst key="dynamicrouting" name="dynamicRouting" value="ENABLED"/>
+						    <vnsParamInst key="hostroute" name="hostroute" value="DISABLED"/>
+						    <vnsParamInst key="type" name="type" value="SNIP"/>
+
+                      </vnsFolderInst>
+                      <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="nsip" name="snip6">
+                            <vnsParamInst key="ipaddress" name="ip6" value="2.2.2.98"/>
+                            <vnsParamInst key="netmask" name="netmask2" value="255.255.255.0"/>
+                            <vnsParamInst key="dynamicrouting" name="dynamicRouting" value="ENABLED"/>
+						    <vnsParamInst key="hostroute" name="hostroute" value="DISABLED"/>
+						    <vnsParamInst key="type" name="type" value="SNIP"/>
+                      </vnsFolderInst>
+                    <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="nsip" name="vip_cs">
+						<vnsParamInst key="ipaddress" name="vip" value="2.2.2.106"/>
+						<vnsParamInst key="netmask" name="netmask2" value="255.255.255.0"/>
+						<vnsParamInst key="dynamicrouting" name="dynamicRouting" value="DISABLED"/>
+						<vnsParamInst key="hostroute" name="hostroute" value="ENABLED"/>
+						<vnsParamInst key="type" name="type" value="VIP"/>
+					</vnsFolderInst>
+
+                 </vnsFolderInst>
+
+			<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="csvserver" name="csvserver_cs_http">
+				<vnsParamInst name="name" key="name" value="cs_http"/>
+				<vnsParamInst name="ipv46" key="ipv46" value="2.2.2.106"/>
+				<vnsParamInst name="servicetype" key="servicetype" value="HTTP"/>
+				<vnsParamInst name="port" key="port" value="80"/>
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="csvserver_cspolicy_binding" name="cs_polbind1">
+					<vnsCfgRelInst key="policyname" name="cs_poll1" targetName="cs_Policy/cs_pol1"/>
+					<vnsParamInst name="priority" key="priority" value="101"/>
+					<vnsParamInst name="targetlbvserver" key="targetlbvserver" value="cs_lb1"/>
+				</vnsFolderInst>
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="csvserver_cspolicy_binding" name="cs_polbind2">
+					<vnsCfgRelInst key="policyname" name="cs_poll2" targetName="cs_Policy/cs_pol2"/>
+					<vnsParamInst name="priority" key="priority" value="102"/>
+					<vnsParamInst name="targetlbvserver" key="targetlbvserver" value="cs_lb2"/>
+				</vnsFolderInst>
+
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="csvserver_cspolicy_binding" name="cs_polbind3">
+					<vnsCfgRelInst key="policyname" name="cs_poll3" targetName="cs_Policy/cs_pol3"/>
+					<vnsParamInst name="priority" key="priority" value="103"/>
+					<vnsParamInst name="targetlbvserver" key="targetlbvserver" value="cs_lb3"/>
+				</vnsFolderInst>
+
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="csvserver_cspolicy_binding" name="cs_polbind4">
+					<vnsCfgRelInst key="policyname" name="cs_poll4" targetName="cs_Policy/cs_pol4"/>
+					<vnsParamInst name="priority" key="priority" value="104"/>
+					<vnsParamInst name="targetlbvserver" key="targetlbvserver" value="cs_lb1"/>
+				</vnsFolderInst>
+
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="csvserver_cspolicy_binding" name="cs_polbind5">
+					<vnsCfgRelInst key="policyname" name="cs_poll5" targetName="cs_Policy/cs_pol5"/>
+					<vnsParamInst name="priority" key="priority" value="105"/>
+					<vnsParamInst name="targetlbvserver" key="targetlbvserver" value="cs_lb2"/>
+				</vnsFolderInst>
+
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="csvserver_cspolicy_binding" name="cs_polbind6">
+					<vnsCfgRelInst key="policyname" name="cs_poll6" targetName="cs_Policy/cs_pol6"/>
+					<vnsParamInst name="priority" key="priority" value="106"/>
+					<vnsParamInst name="targetlbvserver" key="targetlbvserver" value="cs_lb3"/>
+				</vnsFolderInst>
+
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="csvserver_cspolicy_binding" name="cs_polbind7">
+					<vnsCfgRelInst key="policyname" name="cs_poll7" targetName="cs_Policy/cs_pol7"/>
+					<vnsParamInst name="priority" key="priority" value="107"/>
+					<vnsParamInst name="targetlbvserver" key="targetlbvserver" value="cs_lb1"/>
+				</vnsFolderInst>
+
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="csvserver_cspolicy_binding" name="cs_polbind8">
+					<vnsCfgRelInst key="policyname" name="cs_poll8" targetName="cs_Policy/cs_pol8"/>
+					<vnsParamInst name="priority" key="priority" value="108"/>
+					<vnsParamInst name="targetlbvserver" key="targetlbvserver" value="cs_lb2"/>
+				</vnsFolderInst>
+
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="csvserver_cspolicy_binding" name="cs_polbind9">
+					<vnsCfgRelInst key="policyname" name="cs_poll9" targetName="cs_Policy/cs_pol9"/>
+					<vnsParamInst name="priority" key="priority" value="109"/>
+					<vnsParamInst name="targetlbvserver" key="targetlbvserver" value="cs_lb3"/>
+				</vnsFolderInst>
+
+				
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="csvserver_lbvserver_binding" name="cslbbind">
+					<vnsCfgRelInst key="lbvserver" name="cslb4" targetName="cs_lbvserver4"/>
+				</vnsFolderInst>
+			</vnsFolderInst>
+
+
+            <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="lbvserver" name="cs_lbvserver1">  
+                <vnsParamInst name="name" key="name" value="cs_lb1"/>
+                <vnsParamInst name="servicetype" key="servicetype" value="HTTP"/>
+                <vnsParamInst name="ipv46" key="ipv46" value="0.0.0.0"/>
+				<vnsParamInst name="port" key="port" value="0"/>
+                <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="lbvserver_service_binding" name="cs_lbService1">
+                    <vnsCfgRelInst key="servicename" name="webservice1" targetName="cs_service1"/>
+                </vnsFolderInst>
+            </vnsFolderInst>
+			<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="lbvserver" name="cs_lbvserver2">  
+                <vnsParamInst name="name" key="name" value="cs_lb2"/>
+                <vnsParamInst name="servicetype" key="servicetype" value="HTTP"/>
+                <vnsParamInst name="ipv46" key="ipv46" value="0.0.0.0"/>
+				<vnsParamInst name="port" key="port" value="0"/>
+                <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP"  key="lbvserver_service_binding" name="cs_lbService2">
+                    <vnsCfgRelInst key="servicename" name="webservice1" targetName="cs_service2"/>
+                </vnsFolderInst>
+            </vnsFolderInst>
+
+			<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="lbvserver" name="cs_lbvserver3">  
+                <vnsParamInst name="name" key="name" value="cs_lb3"/>
+                <vnsParamInst name="servicetype" key="servicetype" value="HTTP"/>
+                <vnsParamInst name="ipv46" key="ipv46" value="0.0.0.0"/>
+				<vnsParamInst name="port" key="port" value="0"/>
+                <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP"  key="lbvserver_service_binding" name="cs_lbService3">
+                    <vnsCfgRelInst key="servicename" name="webservice1" targetName="cs_service3"/>
+                </vnsFolderInst>
+            </vnsFolderInst>
+
+            
+			<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="lbvserver" name="cs_lbvserver4">  
+                <vnsParamInst name="name" key="name" value="cs_lb4"/>
+                <vnsParamInst name="servicetype" key="servicetype" value="HTTP"/>
+                <vnsParamInst name="ipv46" key="ipv46" value="0.0.0.0"/>
+				<vnsParamInst name="port" key="port" value="0"/>
+                <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="lbvserver_service_binding" name="cs_lbService4">
+					<vnsCfgRelInst key="servicename" name="webservice1" targetName="cs_service4"/>
+                </vnsFolderInst>
+            </vnsFolderInst>
+
+
+             <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="service" name="cs_service1">
+                <vnsParamInst name="name" key="name" value="cs_svc1"/>
+                <vnsParamInst name="ip" key="ip" value="1.1.1.111"/>
+                <vnsParamInst name="servicetype" key="servicetype" value="HTTP"/>
+				<vnsParamInst name="port" key="port" value="80"/>
+            </vnsFolderInst>
+
+             <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="service" name="cs_service2">
+                <vnsParamInst name="name" key="name" value="cs_svc2"/>
+                <vnsParamInst name="ip" key="ip" value="1.1.1.112"/>
+                <vnsParamInst name="servicetype" key="servicetype" value="HTTP"/>
+				<vnsParamInst name="port" key="port" value="80"/>
+            </vnsFolderInst>
+
+             <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="service" name="cs_service3">
+                <vnsParamInst name="name" key="name" value="cs_svc3"/>
+                <vnsParamInst name="ip" key="ip" value="1.1.1.113"/>
+                <vnsParamInst name="servicetype" key="servicetype" value="HTTP"/>
+				<vnsParamInst name="port" key="port" value="80"/>
+            </vnsFolderInst>
+
+             <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="service" name="cs_service4">
+                <vnsParamInst name="name" key="name" value="cs_svc4"/>
+                <vnsParamInst name="ip" key="ip" value="1.1.1.114"/>
+                <vnsParamInst name="servicetype" key="servicetype" value="HTTP"/>
+				<vnsParamInst name="port" key="port" value="80"/>
+            </vnsFolderInst>
+
+
+
+
+			<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP"  key="Policy" name="cs_Policy">
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="cspolicy" name="cs_pol1">
+					<vnsParamInst name="policyname" key="policyname" value="cs_pol1_html"/>
+                    <vnsParamInst name="rule" key="rule" value="HTTP.REQ.URL.CONTAINS(&quot;html&quot;)"/>			
+				</vnsFolderInst>
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="cspolicy" name="cs_pol2">
+					<vnsParamInst name="policyname" key="policyname" value="cs_pol2_txt"/>
+                    <vnsParamInst name="rule" key="rule" value="HTTP.REQ.URL.CONTAINS(&quot;txt&quot;)"/>			
+				</vnsFolderInst>
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="cspolicy" name="cs_pol3">
+					<vnsParamInst name="policyname" key="policyname" value="cs_pol3_gif"/>
+                    <vnsParamInst name="rule" key="rule" value="HTTP.REQ.URL.CONTAINS(&quot;gif&quot;)"/>			
+				</vnsFolderInst>
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="cspolicy" name="cs_pol4">
+					<vnsParamInst name="policyname" key="policyname" value="cs_pol4_jpg"/>
+                    <vnsParamInst name="rule" key="rule" value="HTTP.REQ.URL.CONTAINS(&quot;jpg&quot;)"/>			
+				</vnsFolderInst>
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="cspolicy" name="cs_pol5">
+					<vnsParamInst name="policyname" key="policyname" value="cs_pol5_asp"/>
+                    <vnsParamInst name="rule" key="rule" value="HTTP.REQ.URL.CONTAINS(&quot;asp&quot;)"/>			
+				</vnsFolderInst>
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="cspolicy" name="cs_pol6">
+					<vnsParamInst name="policyname" key="policyname" value="cs_pol6_pl"/>
+                    <vnsParamInst name="rule" key="rule" value="HTTP.REQ.URL.CONTAINS(&quot;pl&quot;)"/>			
+				</vnsFolderInst>
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="cspolicy" name="cs_pol7">
+					<vnsParamInst name="policyname" key="policyname" value="cs_pol7_jsp"/>
+                    <vnsParamInst name="rule" key="rule" value="HTTP.REQ.URL.CONTAINS(&quot;jsp&quot;)"/>			
+				</vnsFolderInst>
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="cspolicy" name="cs_pol8">
+					<vnsParamInst name="policyname" key="policyname" value="cs_pol8_php"/>
+                    <vnsParamInst name="rule" key="rule" value="HTTP.REQ.URL.CONTAINS(&quot;php&quot;)"/>			
+				</vnsFolderInst>
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="cspolicy" name="cs_pol9">
+					<vnsParamInst name="policyname" key="policyname" value="cs_pol9_py"/>
+                    <vnsParamInst name="rule" key="rule" value="HTTP.REQ.URL.CONTAINS(&quot;py&quot;)"/>			
+				</vnsFolderInst>
+
+			</vnsFolderInst>
+
+
+		   <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="mFCngcsvserver" name="mFCng_wcsvserver">  
+               <vnsCfgRelInst name="csvserver_key" key="csvserver_key" targetName="csvserver_cs_http"/>
+           </vnsFolderInst>
+		   
+           <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="mFCnglbvserver" name="mFCng_cs_lbvserver1">  
+               <vnsCfgRelInst name="lbsverver_key" key="lbvserver_key" targetName="cs_lbvserver1"/>
+           </vnsFolderInst>
+		   <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="mFCnglbvserver" name="mFCng_cs_lbvserver2">  
+               <vnsCfgRelInst name="lbsverver_key" key="lbvserver_key" targetName="cs_lbvserver2"/>
+           </vnsFolderInst>
+		   <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="mFCnglbvserver" name="mFCng_cs_lbvserver3">  
+               <vnsCfgRelInst name="lbsverver_key" key="lbvserver_key" targetName="cs_lbvserver3"/>
+           </vnsFolderInst>
+		   <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="mFCnglbvserver" name="mFCng_cs_lbvserver4">  
+               <vnsCfgRelInst name="lbsverver_key" key="lbvserver_key" targetName="cs_lbvserver4"/>
+           </vnsFolderInst>
+           
+		   
+           <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="mFCngservice" name="mFCng_cs_service1">  
+               <vnsCfgRelInst name="service_key" key="service_key" targetName="cs_service1"/>
+           </vnsFolderInst>
+
+           <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="mFCngservice" name="mFCng_cs_service2">  
+               <vnsCfgRelInst name="service_key" key="service_key" targetName="cs_service2"/>
+           </vnsFolderInst>
+
+           <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="mFCngservice" name="mFCng_cs_service3">  
+               <vnsCfgRelInst name="service_key" key="service_key" targetName="cs_service3"/>
+           </vnsFolderInst>
+
+           <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="mFCngservice" name="mFCng_cs_service4">  
+               <vnsCfgRelInst name="service_key" key="service_key" targetName="cs_service4"/>
+           </vnsFolderInst>
+
+		   
+		   <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="mFCngPolicy" name="cs_Pol1">
+				<vnsCfgRelInst name="Policy_key" key="Policy_key" targetName="cs_Policy/cs_pol1"/>
+		   </vnsFolderInst>
+		   
+		   <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="mFCngPolicy" name="cs_Pol2">
+				<vnsCfgRelInst name="Policy_key" key="Policy_key" targetName="cs_Policy/cs_pol2"/>
+		   </vnsFolderInst>
+		   <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="mFCngPolicy" name="cs_Pol3">
+				<vnsCfgRelInst name="Policy_key" key="Policy_key" targetName="cs_Policy/cs_pol3"/>
+		   </vnsFolderInst>
+		   <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="mFCngPolicy" name="cs_Pol4">
+				<vnsCfgRelInst name="Policy_key" key="Policy_key" targetName="cs_Policy/cs_pol4"/>
+		   </vnsFolderInst>
+		   <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="mFCngPolicy" name="cs_Pol5">
+				<vnsCfgRelInst name="Policy_key" key="Policy_key" targetName="cs_Policy/cs_pol5"/>
+		   </vnsFolderInst>
+		   <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="mFCngPolicy" name="cs_Pol6">
+				<vnsCfgRelInst name="Policy_key" key="Policy_key" targetName="cs_Policy/cs_pol6"/>
+		   </vnsFolderInst>
+		   <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="mFCngPolicy" name="cs_Pol7">
+				<vnsCfgRelInst name="Policy_key" key="Policy_key" targetName="cs_Policy/cs_pol7"/>
+		   </vnsFolderInst>
+		   <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="mFCngPolicy" name="cs_Pol8">
+				<vnsCfgRelInst name="Policy_key" key="Policy_key" targetName="cs_Policy/cs_pol8"/>
+		   </vnsFolderInst>
+		   <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="mFCngPolicy" name="cs_Pol9">
+				<vnsCfgRelInst name="Policy_key" key="Policy_key" targetName="cs_Policy/cs_pol9"/>
+		   </vnsFolderInst>
+		   
+		   
+           <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="internal_network" name="internal_network">
+           	<vnsCfgRelInst name="internal_network_key" key="internal_network_key" targetName="network/snip5"/>
+           </vnsFolderInst>
+           <vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="external_network" name="external_network">
+           	<vnsCfgRelInst name="external_network_key" key="external_network_key" targetName="network/snip6"/>
+           </vnsFolderInst>
+
+			<vnsFolderInst ctrctNameOrLbl="webCtrct_CS_HTTP" graphNameOrLbl="WebGraph_CS_HTTP" nodeNameOrLbl="Node3_CS_HTTP" key="mFCngNetwork" name="csvip1">
+		 		<vnsCfgRelInst name="Network_key" key="Network_key" targetName="network/vip_cs" />   
+        <!--       <vnsCfgRelInst name="Network_key" key="Network_key" targetName="network" /> 
+    -->          
+            </vnsFolderInst>
+
+                
+            </fvAEPg>
+ 
+            <fvAEPg dn="uni/tn-tenant_parik1/ap-myapp_profile/epg-app"  name="app">
+                <fvRsBd tnFvBDName="BD2" />
+                <fvRsCons tnVzBrCPName="webCtrct_CS_HTTP"/> 
+                <fvSubnet ip="2.2.2.2/24" scope="shared"/>
+                <fvRsPathAtt tDn="topology/pod-1/paths-101/pathep-[eth1/7]" encap="vlan-1001" instrImedcy="immediate"/>
+                 <!-- BW client side  -->
+                <fvRsDomAtt tDn="uni/phys-phys_BW"/>
+            </fvAEPg>
+
+
+
+        </fvAp>
+    </fvTenant>
+</polUni>

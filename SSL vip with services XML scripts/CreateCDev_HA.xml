@@ -1,0 +1,78 @@
+<!--
+The MIT License (MIT)
+
+Copyright (c) 2015 Citrix Systems, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ -->
+<polUni>
+    <fvTenant name="tenant_parik1">
+        <vnsLDevVip name="ADCCluster1">
+            <vnsCDev name="ADC1" devCtxLbl="C1">
+                <vnsCIf name="10_1">
+                        <vnsRsCIfPathAtt tDn="topology/pod-1/paths-101/pathep-[eth1/5]"/>
+                </vnsCIf>
+                <vnsCIf name="10_2">
+                        <vnsRsCIfPathAtt tDn="topology/pod-1/paths-101/pathep-[eth1/6]"/>
+                </vnsCIf>
+                
+                <vnsCMgmt name="devMgmt"
+                          host="10.217.194.206"
+                          port="80"
+                          />
+                <vnsCCred name="username"
+                          value="nsroot"
+                          />
+                <vnsCCredSecret name="password"
+                          value="nsroot"
+                          />
+                          
+            </vnsCDev>
+
+            <vnsCDev name="ADC2" devCtxLbl="C1">
+                <vnsCIf name="10_1">
+                        <vnsRsCIfPathAtt tDn="topology/pod-1/paths-101/pathep-[eth1/5]"/>
+                </vnsCIf>
+                <vnsCIf name="10_2">
+                        <vnsRsCIfPathAtt tDn="topology/pod-1/paths-101/pathep-[eth1/6]"/>
+                </vnsCIf>
+
+                <vnsCMgmt name="devMgmt"
+                          host="10.217.194.207"
+                          port="80"
+                          />
+                <vnsCCred name="username"
+                          value="nsroot"
+                          />
+                <vnsCCredSecret name="password"
+                          value="nsroot"
+                          />
+
+<!--
+             <vnsDevFolder key="HighAvailability" name="HA_1">
+                         <vnsDevParam key="snip" name="snip_1" value="10.217.194.208"/>
+                        <vnsDevParam key="netmask" name="nm_1" value="255.255.255.224"/>
+              </vnsDevFolder>
+-->
+
+            </vnsCDev>
+
+        </vnsLDevVip>
+    </fvTenant>
+</polUni>

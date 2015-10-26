@@ -1,0 +1,160 @@
+<!--
+The MIT License (MIT)
+
+Copyright (c) 2015 Citrix Systems, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ -->
+<polUni>
+    <fvTenant name="tenant_parik1">
+
+        <!-- Application Profile -->
+
+
+        <fvAp dn="uni/tn-tenant_parik1/ap-myapp_profile" name="myapp_profile">
+            <!-- EPG 1  -->
+			<fvAEPg dn="uni/tn-tenant_parik1/ap-myapp_profile/epg-web" name="web">			
+			    <fvRsBd tnFvBDName="BD1" />
+				<fvSubnet ip="1.1.1.1/24" scope="shared"/>
+				<fvRsProv tnVzBrCPName="webCtrct_SSL"></fvRsProv>
+                <fvRsDomAtt tDn="uni/phys-phys_BW" />
+                <fvRsPathAtt tDn="topology/pod-1/paths-101/pathep-[eth1/8]" encap="vlan-1002" instrImedcy="immediate"/>
+						<!-- BW Server side  -->						  
+  				<vnsFolderInst ctrctNameOrLbl="webCtrct_SSL" graphNameOrLbl="WebGraph_SSL" nodeNameOrLbl="Node2_SSL" key="Network" name="network">
+					<vnsFolderInst ctrctNameOrLbl="webCtrct_SSL" graphNameOrLbl="WebGraph_SSL" nodeNameOrLbl="Node2_SSL" key="nsip" name="snip3">
+						<vnsParamInst key="ipaddress" name="ip3" value="1.1.1.99"/>
+						<vnsParamInst key="netmask" name="netmask1" value="255.255.255.0"/>
+						<vnsParamInst key="dynamicrouting" name="dynamicRouting" value="ENABLED"/>
+						<vnsParamInst key="hostroute" name="hostroute" value="DISABLED"/>
+						<vnsParamInst key="type" name="type" value="SNIP"/>
+					</vnsFolderInst>
+					<vnsFolderInst ctrctNameOrLbl="webCtrct_SSL" graphNameOrLbl="WebGraph_SSL" nodeNameOrLbl="Node2_SSL" key="nsip" name="snip4">
+						<vnsParamInst key="ipaddress" name="ip4" value="2.2.2.99"/>
+						<vnsParamInst key="netmask" name="netmask2" value="255.255.255.0"/>
+						<vnsParamInst key="dynamicrouting" name="dynamicRouting" value="ENABLED"/>
+						<vnsParamInst key="hostroute" name="hostroute" value="DISABLED"/>
+						<vnsParamInst key="type" name="type" value="SNIP"/>
+					</vnsFolderInst>
+				</vnsFolderInst>
+    
+
+                 <vnsFolderInst ctrctNameOrLbl="webCtrct_SSL" graphNameOrLbl="WebGraph_SSL" nodeNameOrLbl="Node2_SSL" key="lbvserver" name="lbvserver_ssl">
+                       <vnsParamInst name="name" key="name" value="vip_ssl"/>
+                       <vnsParamInst name="ipv46" key="ipv46" value="2.2.2.103"/>
+                       <vnsParamInst name="servicetype" key="servicetype" value="SSL"/>
+                       <vnsParamInst name="port" key="port" value="443"/>
+                 
+                <vnsFolderInst ctrctNameOrLbl="webCtrct_SSL" graphNameOrLbl="WebGraph_SSL" nodeNameOrLbl="Node2_SSL"  key="lbvserver_servicegroup_binding" name="lbService1">
+					<vnsCfgRelInst key="servicename" name="WebService1" targetName="service1"/>
+   				</vnsFolderInst>
+
+                  </vnsFolderInst>
+
+
+			<vnsFolderInst ctrctNameOrLbl="webCtrct_SSL" graphNameOrLbl="WebGraph_SSL" nodeNameOrLbl="Node2_SSL" key="servicegroup" name="service1">
+				<vnsParamInst name="servicegroupname" key="servicegroupname" value="ServiceGroup_SSL"/>
+				<vnsParamInst name="servicetype" key="servicetype" value="HTTP"/>
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_SSL" graphNameOrLbl="WebGraph_SSL" nodeNameOrLbl="Node2_SSL" key="servicegroup_servicegroupmember_binding" name="svr1" >
+					<vnsParamInst name="ip" key="ip" value="1.1.1.106"/>
+					<vnsParamInst name="port" key="port" value="80"/>
+				</vnsFolderInst>
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_SSL" graphNameOrLbl="WebGraph_SSL" nodeNameOrLbl="Node2_SSL" key="servicegroup_servicegroupmember_binding" name="svr2" >
+					<vnsParamInst name="ip" key="ip" value="1.1.1.107"/>
+					<vnsParamInst name="port" key="port" value="80"/>
+				</vnsFolderInst>
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_SSL" graphNameOrLbl="WebGraph_SSL" nodeNameOrLbl="Node2_SSL" key="servicegroup_servicegroupmember_binding" name="svr3" >
+					<vnsParamInst name="ip" key="ip" value="1.1.1.108"/>
+					<vnsParamInst name="port" key="port" value="80"/>
+				</vnsFolderInst>
+
+			</vnsFolderInst>
+
+	
+			<vnsFolderInst ctrctNameOrLbl="webCtrct_SSL" graphNameOrLbl="WebGraph_SSL" nodeNameOrLbl="Node2_SSL" key="sslcertkey" name="sslcertkey">
+                       <vnsParamInst name="certkey" key="certkey" value="certkey1"/>
+                       <vnsParamInst name="cert" key="cert" value="server_rsa_2048.pem"/>
+                       <vnsParamInst name="key" key="key" value="server_rsa_2048.ky"/>
+             </vnsFolderInst>			
+
+			
+			<vnsFolderInst ctrctNameOrLbl="webCtrct_SSL" graphNameOrLbl="WebGraph_SSL" nodeNameOrLbl="Node2_SSL" key="sslvserver" name="sslvserver_ssl">
+				<vnsParamInst name="vservername" key="vservername" value="vip_ssl"/>
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_SSL" graphNameOrLbl="WebGraph_SSL" nodeNameOrLbl="Node2_SSL" name="sslvserver_binding" key="sslvserver_sslcertkey_binding">
+					<vnsCfgRelInst name="certkeyname" key="certkeyname" targetName="sslcertkey"/>
+				</vnsFolderInst>
+			</vnsFolderInst>
+
+                 		 			 			                    
+               
+                 
+             
+                <vnsFolderInst ctrctNameOrLbl="webCtrct_SSL" graphNameOrLbl="WebGraph_SSL" nodeNameOrLbl="Node2_SSL" key="mFCnglbvserver" name="Func_lbvserver">
+                       <vnsCfgRelInst name="lbsverver_key" key="lbvserver_key" targetName="lbvserver_ssl"/>
+                </vnsFolderInst>
+          		<vnsFolderInst ctrctNameOrLbl="webCtrct_SSL" graphNameOrLbl="WebGraph_SSL" nodeNameOrLbl="Node2_SSL" key="mFCngsslvserver" name="Func_sslvserver">
+                       <vnsCfgRelInst name="sslvserver_key" key="sslvserver_key" targetName="sslvserver_ssl"/>
+                </vnsFolderInst>
+           		<vnsFolderInst ctrctNameOrLbl="webCtrct_SSL" graphNameOrLbl="WebGraph_SSL" nodeNameOrLbl="Node2_SSL" key="mFCngsslcertkey" name="Func_sslcertkey">  
+               			<vnsCfgRelInst name="sslcertkey_key" key="sslcertkey_key" targetName="sslcertkey"/>
+           		</vnsFolderInst> 
+                
+
+			<vnsFolderInst ctrctNameOrLbl="webCtrct_SSL" graphNameOrLbl="WebGraph_SSL" nodeNameOrLbl="Node2_SSL"  key="mFCngservicegroup" name="service_1">
+				<vnsCfgRelInst name="servicegroup_key1" key="servicegroup_key" targetName="service1"/>
+			</vnsFolderInst>
+
+  
+<!--
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_SSL" graphNameOrLbl="WebGraph_SSL" nodeNameOrLbl="Node2_SSL" key="mFCngNetwork" name="vip_ip">
+                       <vnsCfgRelInst name="Network_key" key="Network_key" targetName="network/vip_ssl" />                 
+                </vnsFolderInst>
+-->
+               
+                <vnsFolderInst ctrctNameOrLbl="webCtrct_SSL" graphNameOrLbl="WebGraph_SSL" nodeNameOrLbl="Node2_SSL" key="internal_network" name="internal_network">
+                       <vnsCfgRelInst name="internal_network_key" key="internal_network_key" targetName="network/snip3"/>
+                </vnsFolderInst>
+
+                <vnsFolderInst ctrctNameOrLbl="webCtrct_SSL" graphNameOrLbl="WebGraph_SSL" nodeNameOrLbl="Node2_SSL" key="external_network" name="external_network">
+                       <vnsCfgRelInst name="external_network_key" key="external_network_key" targetName="network/snip4" />
+                </vnsFolderInst>  
+                
+                
+                
+
+            </fvAEPg>
+
+        
+               <!-- Application Profile -->
+            <!-- EPG 2 -->
+            
+            <fvAEPg dn="uni/tn-tenant_parik1/ap-myapp_profile/epg-app"  name="app">
+                <fvRsBd tnFvBDName="BD2" />
+				<fvRsCons tnVzBrCPName="webCtrct_SSL"/>
+                <fvSubnet ip="2.2.2.2/24" scope="shared"/>				
+				<fvRsPathAtt tDn="topology/pod-1/paths-101/pathep-[eth1/7]" encap="vlan-1001" instrImedcy="immediate"/>
+                <fvRsDomAtt tDn="uni/phys-phys_BW" />
+            </fvAEPg>
+
+        
+
+        
+
+        </fvAp>
+    </fvTenant>
+</polUni>

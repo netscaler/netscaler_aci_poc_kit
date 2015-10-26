@@ -1,0 +1,232 @@
+<!--
+The MIT License (MIT)
+
+Copyright (c) 2015 Citrix Systems, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ -->
+<polUni>
+    <fvTenant name="tenant_parik1">
+
+        <!-- Application Profile -->	
+	        <fvAp dn="uni/tn-tenant_parik1/ap-myapp_profile" name="myapp_profile">
+            <!-- EPG 1  -->
+			<fvAEPg dn="uni/tn-tenant_parik1/ap-myapp_profile/epg-web" name="web">
+				<fvRsBd tnFvBDName="BD1" />
+				<fvSubnet ip="1.1.1.1/24" scope="shared"/>
+				<fvRsProv tnVzBrCPName="webCtrct_responder"></fvRsProv>
+                <fvRsDomAtt tDn="uni/phys-phys_BW"/>
+                <fvRsPathAtt tDn="topology/pod-1/paths-101/pathep-[eth1/8]" encap="vlan-1002" instrImedcy="immediate"/>
+				
+			
+				<!-- BW Server side  -->
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="Network" name="network">
+					<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="nsip" name="snip1">
+						<vnsParamInst key="ipaddress" name="ip1" value="1.1.1.100"/>
+						<vnsParamInst key="netmask" name="netmask1" value="255.255.255.0"/>
+						<vnsParamInst key="dynamicrouting" name="dynamicRouting" value="ENABLED"/>
+						<vnsParamInst key="hostroute" name="hostroute" value="DISABLED"/>
+						<vnsParamInst key="type" name="type" value="SNIP"/>
+					</vnsFolderInst>
+					<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="nsip" name="snip2">
+						<vnsParamInst key="ipaddress" name="ip2" value="2.2.2.101"/>
+						<vnsParamInst key="netmask" name="netmask2" value="255.255.255.0"/>
+						<vnsParamInst key="dynamicrouting" name="dynamicRouting" value="ENABLED"/>
+						<vnsParamInst key="hostroute" name="hostroute" value="DISABLED"/>
+						<vnsParamInst key="type" name="type" value="SNIP"/>
+					</vnsFolderInst>
+
+				</vnsFolderInst>
+				
+				
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="lbvserver" name="lbvserver_vip_responder">
+					<vnsParamInst name="name" key="name" value="vip_responder"/>
+					<vnsParamInst name="ipv46" key="ipv46" value="2.2.2.108"/>
+					<vnsParamInst name="servicetype" key="servicetype" value="HTTP"/>
+					<vnsParamInst name="port" key="port" value="80"/>
+					<vnsParamInst name="clttimeout" key="clttimeout" value="100"/>
+					<vnsParamInst name="persistencetype" key="persistencetype" value="RULE"/>
+					<vnsParamInst name="lbmethod" key="lbmethod" value="LEASTCONNECTION"/>
+
+					 
+					<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="lbvserver_service_binding" name="lbService1">
+						<vnsCfgRelInst key="servicename" name="Service1_http_responder" targetName="Service1_http_responder"/>
+					</vnsFolderInst>
+					<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="lbvserver_service_binding" name="lbService2">
+						<vnsCfgRelInst key="servicename" name="Service2_http_responder" targetName="Service2_http_responder"/>
+					</vnsFolderInst>
+					<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="lbvserver_service_binding" name="lbService3">
+						<vnsCfgRelInst key="servicename" name="Service3_http_responder" targetName="Service3_http_responder"/>
+					</vnsFolderInst>
+
+
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="lbvserver_responderpolicy_binding" name="respPolBind1" >
+					<vnsCfgRelInst name="policyname" key="policyname" targetName="Pol_res/respPol1"/>
+					<vnsParamInst name="priority" key="priority" value="100"/>
+					<vnsParamInst name="bindpoint" key="bindpoint" value="REQUEST"/>
+				</vnsFolderInst>
+
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="lbvserver_responderpolicy_binding" name="respPolBind2" >
+					<vnsCfgRelInst name="policyname" key="policyname" targetName="Pol_res/respPol2"/>
+					<vnsParamInst name="priority" key="priority" value="50"/>
+					<vnsParamInst name="bindpoint" key="bindpoint" value="REQUEST"/>
+				</vnsFolderInst>
+
+				</vnsFolderInst>
+				
+			
+			<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="Policy" name="Pol_res" >
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="responderpolicy" name="respPol1" >
+					<vnsParamInst name="name" key="name" value="redr_pol1"/>
+					<vnsParamInst name="rule" key="rule" value="http.REQ.HOSTNAME.EQ(&quot;example.com&quot;) &amp;&amp; client.TCP.DSTPORT.EQ(80)"/>
+					<vnsCfgRelInst name="action" key="action" targetName="respAction"/>
+				</vnsFolderInst>
+				
+				
+			   <vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="responderpolicy" name="respPol2" >
+					<vnsParamInst name="name" key="name" value="redr_pol2"/>
+					<vnsParamInst name="rule" key="rule" value="http.REQ.HOSTNAME.EQ(&quot;yoyo.yo&quot;)"/>
+					<vnsCfgRelInst name="action_filteraction" key="action_filteraction" targetName="fil"/>
+					<!--vnsAbsCfgRel name="action2" key="action" targetName="respAction"/-->
+				</vnsFolderInst>
+			</vnsFolderInst>
+			
+			<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="filteraction" name="fil" >
+				<vnsParamInst name="name" key="name" value="drop"/>
+				<vnsParamInst name="qual" key="qual" value="drop"/>
+			</vnsFolderInst>
+			
+			
+			<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="responderaction" name="respAction" >
+				<vnsParamInst name="name" key="name" value="rdr_new"/>
+				<vnsParamInst name="type" key="type" value="redirect"/>
+				<vnsParamInst name="target" key="target" value="&quot;https://&quot;+http.REQ.HEADER(&quot;Host&quot;).HTTP_HEADER_SAFE+http.REQ.URL.PATH_AND_QUERY.HTTP_URL_SAFE"/>
+			</vnsFolderInst>
+			
+			<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="Param" name="param" >
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="responderparam" name="respParam" >
+					<vnsParamInst name="undefaction" key="undefaction" value="NOOP"/>
+				</vnsFolderInst>
+			</vnsFolderInst>
+	
+				
+
+				
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="service" name="Service1_http_responder">
+					<vnsParamInst name="name" key="name" value="Service1_for_responder"/>
+					<vnsParamInst name="ip" key="ip" value="1.1.1.123"/>
+					<vnsParamInst name="servicetype" key="servicetype" value="HTTP"/>
+					<vnsParamInst name="port" key="port" value="80"/>
+					<vnsParamInst name="usip" key="usip" value="NO"/>
+					<vnsParamInst name="maxclient" key="maxclient" value="0"/>
+					<vnsParamInst name="clttimeout" key="clttimeout" value="180"/>
+					<vnsParamInst name="svrtimeout" key="svrtimeout" value="360"/>
+					<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="service_lbmonitor_binding" name="servMonBind">
+						<vnsCfgRelInst key="monitor_name" name="monserV" targetName="lbMon2"/>
+					</vnsFolderInst>
+                </vnsFolderInst> 
+  
+                <vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="service" name="Service2_http_responder">
+					<vnsParamInst name="name" key="name" value="Service2_for_responder"/>
+					<vnsParamInst name="ip" key="ip" value="1.1.1.124"/>
+					<vnsParamInst name="servicetype" key="servicetype" value="HTTP"/>
+					<vnsParamInst name="port" key="port" value="80"/>
+					<vnsParamInst name="usip" key="usip" value="NO"/>
+					<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="service_lbmonitor_binding" name="servMonBind">
+						<vnsCfgRelInst key="monitor_name" name="monserV" targetName="lbMon2"/>
+					</vnsFolderInst>
+                </vnsFolderInst>
+				
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="service" name="Service3_http_responder">
+					<vnsParamInst name="name" key="name" value="Service3_for_responder"/>
+					<vnsParamInst name="ip" key="ip" value="1.1.1.125"/>
+					<vnsParamInst name="servicetype" key="servicetype" value="HTTP"/>
+					<vnsParamInst name="port" key="port" value="80"/>
+					<vnsParamInst name="usip" key="usip" value="NO"/>
+					<vnsParamInst name="maxclient" key="maxclient" value="0"/>
+					<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="service_lbmonitor_binding" name="servMonBind">
+						<vnsCfgRelInst key="monitor_name" name="monserV" targetName="lbMon2"/>
+					</vnsFolderInst>
+                </vnsFolderInst>
+				
+				
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="lbmonitor" name="lbMon2">
+					<vnsParamInst name="monitorname" key="monitorname" value="httpMon2"/>
+					<vnsParamInst name="type" key="type" value="HTTP"/>
+				</vnsFolderInst>
+				
+				                				
+				
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="mFCnglbmonitor" name="LBMON">
+					<vnsCfgRelInst name="lbmonitor_key" key="lbmonitor_key" targetName="lbMon2"/>
+				</vnsFolderInst>
+                
+                <vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="mFCnglbvserver" name="Func_lbvserver">
+					<vnsCfgRelInst name="lbsverver_key" key="lbvserver_key" targetName="lbvserver_vip_responder"/>
+                </vnsFolderInst>
+				
+                <vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="mFCngservice" name="Func_service1">
+					<vnsCfgRelInst name="Func_service_key1"  key="service_key" targetName="Service1_http_responder"/>
+                </vnsFolderInst>
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="mFCngservice" name="Func_service2">
+					<vnsCfgRelInst name="Func_service_key2" key="service_key" targetName="Service2_http_responder"/>
+                </vnsFolderInst>
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="mFCngservice" name="Func_service3">
+					<vnsCfgRelInst name="Func_service_key3" key="service_key" targetName="Service3_http_responder"/>
+                </vnsFolderInst>
+
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="mFCngPolicy" name="POL1_res" >
+					<vnsCfgRelInst name="Policy_key" key="Policy_key" targetName="Pol_res/respPol1"/>
+				</vnsFolderInst>
+				
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="mFCngPolicy" name="POL2_res" >
+					<vnsCfgRelInst name="Policy_key" key="Policy_key" targetName="Pol_res/respPol2"/>
+				</vnsFolderInst>
+
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="mFCngParam" name="PARAM" >
+					<vnsCfgRelInst name="Param_key" key="Param_key" targetName="param/respParam"/>
+				</vnsFolderInst>
+
+				<vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="internal_network" name="internal_network">
+					<vnsCfgRelInst name="internal_network_key" key="internal_network_key" targetName="network/snip1"/>
+                </vnsFolderInst>
+
+                <vnsFolderInst ctrctNameOrLbl="webCtrct_responder" graphNameOrLbl="WebGraph_responder" nodeNameOrLbl="Node_LB_responder" key="external_network" name="external_network">
+					<vnsCfgRelInst name="external_network_key" key="external_network_key" targetName="network/snip2" />
+                </vnsFolderInst>
+				
+			
+			</fvAEPg>
+
+
+        <!-- Application Profile -->
+            <!-- EPG 2 -->
+            <fvAEPg dn="uni/tn-tenant_parik1/ap-myapp_profile/epg-app"  name="app">
+                <fvRsBd tnFvBDName="BD2" />
+                <fvRsCons tnVzBrCPName="webCtrct_responder"/> 
+                <fvSubnet ip="2.2.2.2/24" scope="shared"/>
+                <fvRsPathAtt tDn="topology/pod-1/paths-101/pathep-[eth1/7]" encap="vlan-1001" instrImedcy="immediate"/>
+                 <!-- BW client side  -->
+                <fvRsDomAtt tDn="uni/phys-phys_BW"/>
+            </fvAEPg>
+
+
+        </fvAp>
+    </fvTenant>
+</polUni>
