@@ -1,0 +1,60 @@
+<!--
+The MIT License (MIT)
+
+Copyright (c) 2015 Citrix Systems, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ -->
+<infraInfra dn="uni/infra">
+    <infraNodeP name="NodeP2">
+
+        <infraLeafS name="leafs" type="range">
+            <infraNodeBlk name="test" from_="101" to_="101"/>
+        </infraLeafS>
+        <infraRsAccPortP tDn="uni/infra/accportprof-PortP2" />
+    </infraNodeP>
+
+
+    <infraAccPortP name="PortP2">
+
+        <infraHPortS name="pselc" type="range">
+            <infraPortBlk name="blk"
+                 fromCard="1" toCard="1" fromPort="7" toPort="8">
+            </infraPortBlk>
+            <infraRsAccBaseGrp tDn="uni/infra/funcprof/accportgrp-PortGrp2" />
+        </infraHPortS>
+    </infraAccPortP>
+
+
+    <infraFuncP>
+        <infraAccPortGrp name="PortGrp2">
+
+            <infraRsHIfPol tnFabricHIfPolName="new10GPol" />
+            <infraRsAttEntP tDn="uni/infra/attentp-PortP2" />
+        </infraAccPortGrp>
+    </infraFuncP>
+
+    <fabricHIfPol name="new10GPol" speed="10G" />
+
+    <infraAttEntityP name="PortP2">
+           <infraRsDomP tDn="uni/phys-phys_BW"/>
+    </infraAttEntityP>
+</infraInfra>
+
+
